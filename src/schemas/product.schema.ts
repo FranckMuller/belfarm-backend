@@ -13,6 +13,23 @@ export class Product {
 
   @Prop()
   price: string;
+
+  @Prop()
+  images: string[];
+
+  @Prop()
+  rating: number;
 }
 
-export const ProductSchema = SchemaFactory.createForClass(Product);
+const ProductSchema = SchemaFactory.createForClass(Product);
+
+ProductSchema.set('toJSON', {
+  virtuals: true,
+  transform: (doc, ret, options) => {
+    delete ret.__v;
+    ret.id = ret._id.toString();
+    delete ret._id;
+  },
+});
+
+export { ProductSchema };

@@ -1,28 +1,39 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { MongooseModule } from '@nestjs/mongoose'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { join } from 'path'
 
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { ProductsModule } from './products/product.module';
+import { AppService } from './app.service'
+import { AuthModule } from './auth/auth.module'
+import { CategoriesModule } from './categories/categories.module'
+import { IS_DEV_ENV } from './libs/common/utils/is-dev.util'
+import { ProductsModule } from './products/product.module'
+import { UsersModule } from './users/users.module'
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.DB_URL, {
-      connectionFactory: (connection) => {
-        connection.on('connected', () => {
-          console.log('connected to mongoDB');
-        });
-        connection._events.connected();
-        return connection;
-      },
-    }),
+	imports: [
+		ConfigModule.forRoot({ isGlobal: true, ignoreEnvFile: !IS_DEV_ENV }),
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'uploads'),
+			serveRoot: '/uploads/'
+		}),
+		MongooseModule.forRoot(process.env.DB_URL, {
+			connectionFactory: connection => {
+				connection.on('connected', () => {
+					console.log('connected to mongoDB')
+				})
+				connection._events.connected()
+				return connection
+			}
+		}),
 
-    UsersModule,
-    ProductsModule,
-  ],
-  controllers: [],
-  providers: [AppService],
+		UsersModule,
+		ProductsModule,
+		CategoriesModule,
+		AuthModule
+	],
+	controllers: [],
+	providers: [AppService]
 })
 export class AppModule {}

@@ -10,8 +10,20 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
-  async create(dto: CreateProductDto) {
-    console.log(dto);
-    return await this.productModel.create(dto);
+  async getAll() {
+    return await this.productModel.find({});
+  }
+
+  async getOneById(id: string) {
+    return await this.productModel.findById(id);
+  }
+
+  async create(dto: CreateProductDto, images: Array<Express.Multer.File>) {
+    const productData = {
+      ...dto,
+      images: images.map((image) => `http://localhost:4500/${image.path}`),
+      rating: 4,
+    };
+    return await this.productModel.create(productData);
   }
 }
