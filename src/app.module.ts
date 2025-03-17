@@ -6,8 +6,12 @@ import { join } from 'path'
 
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
+import { EmailConfirmationModule } from './auth/email-confirmation/email-confirmation.module'
+import { PasswordRecoveryModule } from './auth/password-recovery/password-recovery.module'
+import { ProviderModule } from './auth/provider/provider.module'
 import { CategoriesModule } from './categories/categories.module'
 import { IS_DEV_ENV } from './libs/common/utils/is-dev.util'
+import { MailModule } from './libs/mail/mail.module'
 import { ProductsModule } from './products/product.module'
 import { UsersModule } from './users/users.module'
 
@@ -31,9 +35,13 @@ import { UsersModule } from './users/users.module'
 		UsersModule,
 		ProductsModule,
 		CategoriesModule,
-		AuthModule
+		AuthModule,
+		ProviderModule,
+		MailModule,
+		EmailConfirmationModule,
+		PasswordRecoveryModule
 	],
 	controllers: [],
-	providers: [AppService]
+	providers: [AppService, ProviderModule]
 })
 export class AppModule {}

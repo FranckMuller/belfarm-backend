@@ -6,7 +6,7 @@ import {
 	MinLength,
 	Validate
 } from 'class-validator'
-import { IsPasswordMatchingConstraint } from 'src/libs/common/decorators/Is-password-matching-constraint.decorator'
+import { IsPasswordMatchingConstraint } from 'src/libs/common/decorators/is-password-matching-constraint.decorator'
 
 export class RegisterDto {
 	@ApiProperty({ example: 'Иван' })
@@ -14,7 +14,7 @@ export class RegisterDto {
 	@IsNotEmpty({ message: 'Имя обязательно для заполнения' })
 	name: string
 
-	@ApiProperty({ example: 'example@mail.ru' })
+	@ApiProperty({ example: 'dmitrysvetlov113@gmail.com' })
 	@IsString({ message: 'Email должно быть строкой.' })
 	@IsEmail({}, { message: 'Некорректный формат email' })
 	@IsNotEmpty({ message: 'Email обязателен для заполнения' })

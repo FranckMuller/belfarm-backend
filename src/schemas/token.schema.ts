@@ -3,13 +3,13 @@ import { HydratedDocument } from 'mongoose'
 
 export type TokenDocument = HydratedDocument<Token>
 
-enum TokenType {
+export enum TokenType {
 	Verification = 'VERIFICATION',
 	TwoFactor = 'TWO_FACTOR',
 	PasswordReset = 'PASSWORD_RESET'
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class Token {
 	@Prop()
 	email: string

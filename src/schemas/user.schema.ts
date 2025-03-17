@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { hash } from 'argon2'
-import mongoose, { HydratedDocument } from 'mongoose'
+import mongoose, { HydratedDocument, ObjectId } from 'mongoose'
 
 import { Account } from './account.schema'
 
@@ -46,7 +46,7 @@ export class User {
 	@Prop({
 		type: [{ type: mongoose.Schema.ObjectId, ref: (() => Account).name }]
 	})
-	accounts: Account[]
+	accounts: ObjectId[]
 }
 
 const UserSchema = SchemaFactory.createForClass(User)
@@ -67,6 +67,7 @@ UserSchema.set('toJSON', {
 		delete ret.__v
 		ret.id = ret._id.toString()
 		delete ret._id
+		delete ret.password
 	}
 })
 

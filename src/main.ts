@@ -19,7 +19,6 @@ async function bootstrap() {
 	const redisHost = appConfig.getOrThrow<string>('REDIS_HOST')
 	const redisPort = appConfig.getOrThrow<number>('REDIS_PORT')
 	const redisUri = `redis://${redisHost}:${redisPort}`
-	console.log(redisUri)
 	const redis = new IORedis(redisUri, { password: redisPassword })
 
 	app.use(cookieParser(appConfig.getOrThrow<string>('COOKIES_SECRET')))
